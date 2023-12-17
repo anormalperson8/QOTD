@@ -22,6 +22,7 @@ def create_page(title: str, url: str, page: int):
                                           "I am QOTD Eevee!\n"
                                           "I am a bot that asks QOTD (Questions of the Day).\n"
                                           "This bot is currently **in development**!\n"
+                                          "The text command prefix will be changed later.\n"
                                           "Read the other pages to see what commands I have to offer.",
                               colour=random_colour(), url=url)
     if page == 2:
@@ -31,7 +32,7 @@ def create_page(title: str, url: str, page: int):
                                           "## Slash Commands\n"
                                           "**ping**\nTest command.\n"
                                           "**info**\nThis command.\n"
-                                          "## Text Commands (Prefix: `.`)\n"
+                                          "## Text Commands (Prefix: `!q`)\n"
                                           "**boo**\nOi.",
                               colour=random_colour(), url=url)
     if page == 3:
@@ -48,7 +49,7 @@ def create_page(title: str, url: str, page: int):
                                           "Message ID and emotes are required for the command.\n"
                                           "**edit**\nThis commands edits a message Birthday Eevee sent.\n"
                                           "Message ID and content are required for the command.\n"
-                                          "## Text Commands (Prefix: `.`)\n"
+                                          "## Text Commands (Prefix: `!q`)\n"
                                           "**echo**\nBirthday Eevee echos what you say.\n"
                                           "If you are replying to a message, the message author is pinged.\n"
                                           "You won't get any response if you're not a moderator.\n"
@@ -70,7 +71,7 @@ def create_page(title: str, url: str, page: int):
                                           "**add_server**\nDon't try it.\n"
                                           "**delete_server**\nDon't try it.\n"
                                           "**secret**\nIt *literally* says secret.\n"
-                                          "## Text Commands (Prefix: `.`)\n"
+                                          "## Text Commands (Prefix: `!q`)\n"
                                           "**time**\nYou won't get any response if you're not the owner.",
                               colour=random_colour(), url=url)
     if page == 5:
