@@ -68,11 +68,11 @@ async def time(ctx):
     await ctx.send(f"Time check!\n{timestamp()}")
 
 
-async def echo_content(ctx, arg, ping: bool):
+async def echo_content(ctx, arg, stat: bool):
     # Owner Privileges
     if ctx.author.id == owner_id:
         if ctx.message.reference is not None and ctx.message.reference.resolved is not None:
-            await ctx.message.reference.resolved.reply(arg, mention_author=ping)
+            await ctx.message.reference.resolved.reply(arg, mention_author=stat)
         else:
             await ctx.send(arg)
         return
@@ -80,7 +80,7 @@ async def echo_content(ctx, arg, ping: bool):
     for role in ctx.message.author.roles:
         if role.id in server_info.search_for_server(servers, ctx.message.guild.id).moderator_roles:
             if ctx.message.reference is not None and ctx.message.reference.resolved is not None:
-                await ctx.message.reference.resolved.reply(arg, mention_author=ping)
+                await ctx.message.reference.resolved.reply(arg, mention_author=stat)
             else:
                 await ctx.send(arg)
             return
@@ -130,7 +130,7 @@ async def owner_reject(interaction: nextcord.Interaction):
 
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="My info!")
-async def info(interaction):
+async def info(interaction: nextcord.Interaction):
     # server = server_info.search_for_server(servers, interaction.guild_id)
     title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
     url = "https://github.com/anormalperson8/QOTD_Eevee"
