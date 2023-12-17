@@ -10,7 +10,7 @@ import asyncio
 # Self .py files
 import info_command
 import server_info
-from pages import InfoPages
+import pageClass
 import question
 
 intents = nextcord.Intents.all()
@@ -120,6 +120,14 @@ def check_mod(interaction: nextcord.Interaction):
     return False
 
 
+async def owner_reject(interaction: nextcord.Interaction):
+    if interaction.user.id != owner_id:
+        await interaction.edit_original_message(
+            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+        return True
+    return False
+
+
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="My info!")
 async def info(interaction):
@@ -131,7 +139,8 @@ async def info(interaction):
     for i in range(len(pages)):
         pages[i].set_thumbnail(image)
         pages[i].set_footer(text=f"Page {i + 1}/4")
-    await interaction.response.send_message(content="", embed=pages[0], view=InfoPages(pages=pages, ctx=interaction))
+    await interaction.response.send_message(content="", embed=pages[0],
+                                            view=pageClass.InfoPages(pages=pages, ctx=interaction))
 
 
 @commands.guild_only()
@@ -226,9 +235,7 @@ async def activity(interaction: nextcord.Interaction,
                        description="The url. Add only when streaming.",
                        default=None)):
     await interaction.response.defer(ephemeral=True)
-    if interaction.user.id != owner_id:
-        await interaction.edit_original_message(
-            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+    if owner_reject(interaction):
         return
     verb_dict = {"Playing": nextcord.Game(name=activity_name),
                  "Streaming": nextcord.Streaming(name=activity_name, url=url),
@@ -254,9 +261,7 @@ async def status(interaction: nextcord.Interaction,
                               "Do Not Disturb": "DND", "Offline": "Offline"},
                      description="The status.")):
     await interaction.response.defer(ephemeral=True)
-    if interaction.user.id != owner_id:
-        await interaction.edit_original_message(
-            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+    if owner_reject(interaction):
         return
     status_dict = {"Online": nextcord.Status.online, "Idle": nextcord.Status.idle,
                    "DND": nextcord.Status.dnd, "Offline": nextcord.Status.offline}
@@ -283,9 +288,7 @@ async def modify(interaction: nextcord.Interaction,
                                                                 "Write any number when removing ann/role",
                                                     default="")):
     await interaction.response.defer(ephemeral=True)
-    if interaction.user.id != owner_id:
-        await interaction.edit_original_message(
-            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+    if owner_reject(interaction):
         return
     # Changing data types
     action = bool(action)
@@ -339,9 +342,7 @@ async def add_server(interaction: nextcord.Interaction,
                                                            description="Server ID of the server you want to add.")
                      ):
     await interaction.response.defer(ephemeral=True)
-    if interaction.user.id != owner_id:
-        await interaction.edit_original_message(
-            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+    if owner_reject(interaction):
         return
     server_id = int(server_id)
     global servers, guilds_list
@@ -366,9 +367,7 @@ async def delete_server(interaction: nextcord.Interaction,
                                                               description="Server ID of the server you want to add.")
                         ):
     await interaction.response.defer(ephemeral=True)
-    if interaction.user.id != owner_id:
-        await interaction.edit_original_message(
-            content="Did you not read the description? This is for the owner not you <:sunnyyBleh:1055108393372749824>")
+    if owner_reject(interaction):
         return
     server_id = int(server_id)
     global servers, guilds_list
