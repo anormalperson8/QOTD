@@ -46,6 +46,12 @@ async def boo(ctx):
     await ctx.send(f"Oi.")
 
 
+@client.slash_command(guild_ids=guilds_list, description="Pong!")
+async def ping(interaction: nextcord.Interaction):
+    await interaction.response.defer(ephemeral=True)
+    await interaction.edit_original_message(content="Pong!")
+
+
 def timestamp():
     now = datetime.datetime.now()
     return f"Today is {now.date().day} {calendar.month_name[now.date().month]}, {now.date().year}\n" \
@@ -112,10 +118,64 @@ def check_mod(interaction: nextcord.Interaction):
     return False
 
 
-@client.slash_command(guild_ids=guilds_list, description="Pong!")
-async def ping(interaction: nextcord.Interaction):
-    await interaction.response.defer(ephemeral=True)
-    await interaction.edit_original_message(content="Pong!")
+class Pages(nextcord.ui.View):
+
+    def __init__(self, *, timeout=90, pages=None, page_number=0, ctx=None):
+        super().__init__(timeout=timeout)
+        if pages is None:
+            pages = []
+        self.pages = pages
+        self.page_number = page_number
+        self.ctx = ctx
+
+    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="⬅️", disabled=True)
+    async def previous_button(self, button: nextcord.ui.button, interaction):
+        if self.page_number <= 0:
+            await interaction.response.send_message("You are already at the first page! <:EeveeOwO:965977455791857695>",
+                                                    ephemeral=True)
+        else:
+            self.page_number -= 1
+            await self.update_button(self.page_number)
+            await interaction.response.edit_message(view=self, content="",
+                                                    embed=self.pages[self.page_number])
+
+    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="➡️", disabled=False)
+    async def next_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
+        if self.page_number >= len(self.pages) - 1:
+            await interaction.response.send_message("You are already at the last page! <:EeveeOwO:965977455791857695>",
+                                                    ephemeral=True)
+        else:
+            self.page_number += 1
+            await self.update_button(self.page_number)
+            await interaction.response.edit_message(view=self, content="",
+                                                    embed=self.pages[self.page_number])
+
+    async def update_button(self, page: int):
+        self.previous_button.disabled = page == 0
+        self.next_button.disabled = page == len(self.pages) - 1
+
+    async def on_timeout(self) -> None:
+        await self.disable_button()
+        og = await self.ctx.original_message()
+        await og.edit(view=self, content="", embed=self.pages[self.page_number])
+
+    async def disable_button(self):
+        self.previous_button.disabled = True
+        self.next_button.disabled = True
+
+
+@commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="My info!")
+async def info(interaction):
+    # server = server_info.search_for_server(servers, interaction.guild_id)
+    title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
+    url = "https://github.com/anormalperson8/QOTD_Eevee"
+    pages = [info_command.create_page(title, url, i + 1) for i in range(4)]
+    image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
+    for i in range(len(pages)):
+        pages[i].set_thumbnail(image)
+        pages[i].set_footer(text=f"Page {i + 1}/4")
+    await interaction.response.send_message(content="", embed=pages[0], view=Pages(pages=pages, ctx=interaction))
 
 
 @commands.guild_only()
@@ -338,7 +398,7 @@ async def add_server(interaction: nextcord.Interaction,
                                                         f"<:sunnyy:1055107759231729735>")
         return
 
-    servers.append(server_info.Server(server_id, 1, [], [], 1))
+    servers.append(server_info.Server(server_id, 1, [], 1))
     server_info.write(servers)
     await interaction.edit_original_message(content=f"Server added.")
 
