@@ -7,9 +7,11 @@ import datetime
 import calendar
 import asyncio
 
-import info_command
 # Self .py files
+import info_command
 import server_info
+from pages import InfoPages
+import question
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
@@ -118,52 +120,6 @@ def check_mod(interaction: nextcord.Interaction):
     return False
 
 
-class Pages(nextcord.ui.View):
-
-    def __init__(self, *, timeout=90, pages=None, page_number=0, ctx=None):
-        super().__init__(timeout=timeout)
-        if pages is None:
-            pages = []
-        self.pages = pages
-        self.page_number = page_number
-        self.ctx = ctx
-
-    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="⬅️", disabled=True)
-    async def previous_button(self, button: nextcord.ui.button, interaction):
-        if self.page_number <= 0:
-            await interaction.response.send_message("You are already at the first page! <:EeveeOwO:965977455791857695>",
-                                                    ephemeral=True)
-        else:
-            self.page_number -= 1
-            await self.update_button(self.page_number)
-            await interaction.response.edit_message(view=self, content="",
-                                                    embed=self.pages[self.page_number])
-
-    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="➡️", disabled=False)
-    async def next_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
-        if self.page_number >= len(self.pages) - 1:
-            await interaction.response.send_message("You are already at the last page! <:EeveeOwO:965977455791857695>",
-                                                    ephemeral=True)
-        else:
-            self.page_number += 1
-            await self.update_button(self.page_number)
-            await interaction.response.edit_message(view=self, content="",
-                                                    embed=self.pages[self.page_number])
-
-    async def update_button(self, page: int):
-        self.previous_button.disabled = page == 0
-        self.next_button.disabled = page == len(self.pages) - 1
-
-    async def on_timeout(self) -> None:
-        await self.disable_button()
-        og = await self.ctx.original_message()
-        await og.edit(view=self, content="", embed=self.pages[self.page_number])
-
-    async def disable_button(self):
-        self.previous_button.disabled = True
-        self.next_button.disabled = True
-
-
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="My info!")
 async def info(interaction):
@@ -175,7 +131,7 @@ async def info(interaction):
     for i in range(len(pages)):
         pages[i].set_thumbnail(image)
         pages[i].set_footer(text=f"Page {i + 1}/4")
-    await interaction.response.send_message(content="", embed=pages[0], view=Pages(pages=pages, ctx=interaction))
+    await interaction.response.send_message(content="", embed=pages[0], view=InfoPages(pages=pages, ctx=interaction))
 
 
 @commands.guild_only()
