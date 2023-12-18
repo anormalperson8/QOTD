@@ -153,4 +153,4 @@ class AddQuestion(nextcord.ui.Modal):
 
     async def callback(self, interaction: Interaction) -> None:
         question.add_to_filter(self.question_box.value.replace("\n", r"\n"))
-        await interaction.send("Question added. It will be passed to approval.")
+        await interaction.send("Question added. It will be passed to approval.", ephemeral=True)
