@@ -82,17 +82,29 @@ def create_approve_list():
 
 def create_approve_pages(title: str, url: str):
     it = create_approve_list()
-    text = [("Approve/Reject questions by selecting below and click the corresponding button!\n"
-             "Questions:\n" +
-             "\n".join(
-                [f"----------{(10 * i + j + 1):02d}----------\n"
-                 f"{it[i][j]}" for j in range(len(it[i]))]
-             ) +
-             "\n") for i in range(len(it))]
+
+    if it[0][0] != "":
+        text = [("Approve/Reject questions by selecting below and click the corresponding button!\n"
+                 "Questions:\n" +
+                 "\n".join(
+                    [f"----------{(10 * i + j + 1):02d}----------\n"
+                     f"{it[i][j]}" for j in range(len(it[i]))]
+                 ) +
+                 "\n") for i in range(len(it))]
+    else:
+        text = ["There are no questions subject to approval!"]
 
     return [nextcord.Embed(title=title,
                            description=f"```\n{t}```",
                            colour=random_colour(), url=url) for t in text]
+
+
+def filter_empty():
+    return create_approve_list()[0][0] == ""
+
+
+def get_filter_question(index: int):
+    return get_filters()[index]
 
 
 if __name__ == "__main__":
