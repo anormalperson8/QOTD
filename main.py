@@ -158,16 +158,17 @@ async def approve(interaction: nextcord.Interaction):
 
     title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
     url = "https://github.com/anormalperson8/QOTD_Eevee"
-    pages = question.create_approve_pages(title, url)
     image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
 
     # TODO: Make everything server specific
 
-    for i in range(len(pages)):
-        pages[i].set_thumbnail(image)
-        pages[i].set_footer(text=f"Page {i + 1}/{len(pages)}")
+    pages = question.create_approve_pages(title, url)
+    pages[0].set_thumbnail(image)
+    pages[0].set_footer(text=f"Page 1/{len(pages)}")
+
     await interaction.response.send_message(content="", embed=pages[0],
-                                            view=pageClass.FilterPages(pages=pages, ctx=interaction))
+                                            view=pageClass.FilterPages(title=title, url=url, image=image,
+                                                                       ctx=interaction))
 
 
 @commands.guild_only()
