@@ -101,7 +101,7 @@ class FilterPages(nextcord.ui.View):
         if interaction.user != self.ctx.user:
             await interaction.response.send_message("This is not yours <:EeveeOwO:965977455791857695>", ephemeral=True)
             return
-        t = f"**Question {int(self.val[0]) + 1}: `{question.get_filter_question(int(self.val[0]))}` has been approved.**"
+        t = self.result_string(True)
         question.filter_question(int(self.val[0]), True)
         self.reset()
         await interaction.response.edit_message(view=self, content=t, embed=self.pages[self.page_number])
@@ -112,10 +112,19 @@ class FilterPages(nextcord.ui.View):
         if interaction.user != self.ctx.user:
             await interaction.response.send_message("This is not yours <:EeveeOwO:965977455791857695>", ephemeral=True)
             return
-        t = f"**Question {int(self.val[0]) + 1}: `{question.get_filter_question(int(self.val[0]))}` has been rejected.**"
+        t = self.result_string(False)
         question.filter_question(int(self.val[0]), False)
         self.reset()
         await interaction.response.edit_message(view=self, content=t, embed=self.pages[self.page_number])
+
+    def result_string(self, status: bool):
+        q = question.get_filter_question(int(self.val[0])).replace("\n", r"\n")
+        t = f"**Question {int(self.val[0]) + 1}: `{q}` has been"
+        if status:
+            t += " approved.**"
+        else:
+            t += " rejected.**"
+        return t
 
     async def update_page(self, page: int):
         self.previous_button.disabled = page == 0
@@ -153,7 +162,7 @@ class FilterPages(nextcord.ui.View):
     async def on_timeout(self) -> None:
         self.disable_button()
         og = await self.ctx.original_message()
-        await og.edit(view=self, content="", embed=self.pages[self.page_number])
+        await og.edit(view=self, embed=self.pages[self.page_number])
 
     def disable_page_turning(self):
         self.previous_button.disabled = True
