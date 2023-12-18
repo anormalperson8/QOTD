@@ -129,18 +129,39 @@ async def owner_reject(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
-@client.slash_command(guild_ids=guilds_list, description="My info!")
+@client.slash_command(guild_ids=guilds_list, description="Approve questions!")
 async def info(interaction: nextcord.Interaction):
-    # server = server_info.search_for_server(servers, interaction.guild_id)
     title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
     url = "https://github.com/anormalperson8/QOTD_Eevee"
     pages = [info_command.create_page(title, url, i + 1) for i in range(4)]
     image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
     for i in range(len(pages)):
         pages[i].set_thumbnail(image)
-        pages[i].set_footer(text=f"Page {i + 1}/4")
+        pages[i].set_footer(text=f"Page {i + 1}/{len(pages)}")
     await interaction.response.send_message(content="", embed=pages[0],
                                             view=pageClass.InfoPages(pages=pages, ctx=interaction))
+
+
+@commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="Approve/Deny submitted questions. Mods only.")
+async def approve(interaction: nextcord.Interaction):
+
+    if not check_mod(interaction):
+        await interaction.edit_original_message(content="Mods only.")
+        return
+
+    title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
+    url = "https://github.com/anormalperson8/QOTD_Eevee"
+    pages = question.create_approve_pages(title, url)
+    image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
+
+    # TODO: Make everything server specific
+
+    for i in range(len(pages)):
+        pages[i].set_thumbnail(image)
+        pages[i].set_footer(text=f"Page {i + 1}/{len(pages)}")
+    await interaction.response.send_message(content="", embed=pages[0],
+                                            view=pageClass.FilterPages(pages=pages, ctx=interaction))
 
 
 @commands.guild_only()
@@ -235,7 +256,7 @@ async def activity(interaction: nextcord.Interaction,
                        description="The url. Add only when streaming.",
                        default=None)):
     await interaction.response.defer(ephemeral=True)
-    if owner_reject(interaction):
+    if await owner_reject(interaction):
         return
     verb_dict = {"Playing": nextcord.Game(name=activity_name),
                  "Streaming": nextcord.Streaming(name=activity_name, url=url),
@@ -261,7 +282,7 @@ async def status(interaction: nextcord.Interaction,
                               "Do Not Disturb": "DND", "Offline": "Offline"},
                      description="The status.")):
     await interaction.response.defer(ephemeral=True)
-    if owner_reject(interaction):
+    if await owner_reject(interaction):
         return
     status_dict = {"Online": nextcord.Status.online, "Idle": nextcord.Status.idle,
                    "DND": nextcord.Status.dnd, "Offline": nextcord.Status.offline}
@@ -288,7 +309,7 @@ async def modify(interaction: nextcord.Interaction,
                                                                 "Write any number when removing ann/role",
                                                     default="")):
     await interaction.response.defer(ephemeral=True)
-    if owner_reject(interaction):
+    if await owner_reject(interaction):
         return
     # Changing data types
     action = bool(action)
@@ -342,7 +363,7 @@ async def add_server(interaction: nextcord.Interaction,
                                                            description="Server ID of the server you want to add.")
                      ):
     await interaction.response.defer(ephemeral=True)
-    if owner_reject(interaction):
+    if await owner_reject(interaction):
         return
     server_id = int(server_id)
     global servers, guilds_list
@@ -367,7 +388,7 @@ async def delete_server(interaction: nextcord.Interaction,
                                                               description="Server ID of the server you want to add.")
                         ):
     await interaction.response.defer(ephemeral=True)
-    if owner_reject(interaction):
+    if await owner_reject(interaction):
         return
     server_id = int(server_id)
     global servers, guilds_list
