@@ -1,7 +1,15 @@
 import os
+import nextcord
+import math
+from itertools import zip_longest
 
+import question
+from info_command import random_colour
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+
+# Possible TODO: Refactor txt files to json that holds question for each server
 
 
 # Get list of questions
@@ -55,3 +63,27 @@ def filter_question(index: int, status: bool):
     os.remove(path + "/data/filter.txt")
     os.rename(path + "/data/filter2.txt", path + "/data/filter.txt")
 
+
+def create_approve_list():
+    return [list(filter(lambda i: i is not None, que)) for que in list(zip_longest(*[iter(get_filters())] * 10))]
+
+
+def create_approve_pages(title: str, url: str):
+    # TODO: Create pages for approval (should be server-specific?)
+
+    it = create_approve_list()
+
+    text = [("Approve/Reject questions by selecting below and click the corresponding button!\n"
+             "Questions:\n" +
+             "\n".join(
+                [f"{(10 * i + j + 1):2d}: {it[i][j]}" for j in range(len(it[i]))]
+             ) +
+             "\n") for i in range(len(it))]
+
+    return [nextcord.Embed(title=title,
+                           description=f"```\n{t}```",
+                           colour=random_colour(), url=url) for t in text]
+
+
+if __name__ == "__main__":
+    print(create_approve_pages("haha", "")[0].description)
