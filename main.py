@@ -15,7 +15,7 @@ import question
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
-                      activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="your question inputs"))
+                      activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="your questions"))
 
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
@@ -36,7 +36,7 @@ async def on_ready():
     print('We have logged in as {0.user}'.format(client))
     test_server = server_info.get_servers()[0]
     channel_test = client.get_guild(test_server.serverID).get_channel(test_server.question_channel)
-    await channel_test.send(f"Bot is on.")
+    await channel_test.send(f"QOTD Eevee is on.")
 
 
 # Response-testing command
