@@ -15,7 +15,7 @@ import question
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
-                      activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="to your question inputs"))
+                      activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="your question inputs"))
 
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
