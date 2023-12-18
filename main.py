@@ -143,6 +143,12 @@ async def info(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="Add a question!")
+async def add_question(interaction: nextcord.Interaction):
+    await interaction.response.send_modal(pageClass.AddQuestion())
+
+
+@commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="Approve/Deny submitted questions. Mods only.")
 async def approve(interaction: nextcord.Interaction):
 
