@@ -75,7 +75,7 @@ def modify(server_id: int, stat: bool, question_channel: int = None, moderator_r
                     else:
                         message = f"Problem: This is already the questioning channel!"
                 else:
-                    server.announcementChannel = 1
+                    server.announcementChannel = -1
                     done = True
                     message = f"Questioning channel is removed."
                 break
@@ -106,7 +106,7 @@ def modify(server_id: int, stat: bool, question_channel: int = None, moderator_r
                     else:
                         message = f"Problem: This is already the role to ping!."
                 else:
-                    server.role_to_ping = 1
+                    server.role_to_ping = -1
                     done = True
                     message = f"Role to ping is removed."
                 break

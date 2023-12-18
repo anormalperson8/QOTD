@@ -15,7 +15,7 @@ import question
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
-                      activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="out for questions"))
+                      activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="to your question inputs."))
 
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
@@ -149,7 +149,7 @@ async def add_question(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
-@client.slash_command(guild_ids=guilds_list, description="Approve/Deny submitted questions. Mods only.")
+@client.slash_command(guild_ids=guilds_list, description="Approve/Reject submitted questions. Mods only.")
 async def approve(interaction: nextcord.Interaction):
 
     if not check_mod(interaction):
