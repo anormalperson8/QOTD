@@ -1,15 +1,13 @@
 import os
 import nextcord
-import math
 from itertools import zip_longest
 
-import question
 from info_command import random_colour
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-# Possible TODO: Refactor txt files to json that holds question for each server
+# Possible TODO: Refactor this to be server-specific
 
 
 # Get list of questions
@@ -17,6 +15,7 @@ def get_questions():
     q = open(path + "/data/questions.txt", 'r')
     questions = q.read().split('\n')
     q.close()
+    questions = [i.replace(r"\n", "\n") for i in questions]
     return questions
 
 
@@ -36,6 +35,7 @@ def get_filters():
     f = open(path + "/data/filter.txt", 'r')
     questions = f.read().split('\n')
     f.close()
+    questions = [i.replace(r"\n", "\n") for i in questions]
     return questions
 
 
@@ -47,6 +47,7 @@ def filter_question(index: int, status: bool):
     # Update questions
     if status:
         new_q.append(questions.pop(index))
+        new_q = [i.replace("\n", r"\n") for i in new_q]
         q = open(path + "/data/questions2.txt", 'w')
         q.write("\n".join(new_q))
         q.close()
@@ -55,10 +56,21 @@ def filter_question(index: int, status: bool):
 
     # Update filters
     f = open(path + "/data/filter2.txt", 'w')
+    questions = [i.replace("\n", r"\n") for i in questions]
     if status:
         f.write("\n".join(questions))
     else:
         f.write("\n".join(questions[:index] + questions[index + 1:]))
+    f.close()
+    os.remove(path + "/data/filter.txt")
+    os.rename(path + "/data/filter2.txt", path + "/data/filter.txt")
+
+
+def add_to_filter(question: str):
+    questions = [i.replace("\n", r"\n") for i in get_filters()]
+    questions.append(question.replace("\n", r"\n"))
+    f = open(path + "/data/filter2.txt", 'w')
+    f.write("\n".join(questions))
     f.close()
     os.remove(path + "/data/filter.txt")
     os.rename(path + "/data/filter2.txt", path + "/data/filter.txt")
@@ -69,14 +81,12 @@ def create_approve_list():
 
 
 def create_approve_pages(title: str, url: str):
-    # TODO: Create pages for approval (should be server-specific?)
-
     it = create_approve_list()
-
     text = [("Approve/Reject questions by selecting below and click the corresponding button!\n"
              "Questions:\n" +
              "\n".join(
-                [f"{(10 * i + j + 1):2d}: {it[i][j]}" for j in range(len(it[i]))]
+                [f"----------{(10 * i + j + 1):02d}----------\n"
+                 f"{it[i][j]}" for j in range(len(it[i]))]
              ) +
              "\n") for i in range(len(it))]
 
@@ -86,4 +96,4 @@ def create_approve_pages(title: str, url: str):
 
 
 if __name__ == "__main__":
-    print(create_approve_pages("haha", "")[0].description)
+    pass
