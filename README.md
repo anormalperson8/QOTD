@@ -11,7 +11,13 @@ Written specifically for friends' Discord servers.
 ### [main.py](/main.py)
 The file that stores all the commands and interactions.
 
-### [info_command.py (To be implemented)](/info_command.py)
+### [pageClass.py](/pageClass.py)
+The file that contains UI classes.
+
+### [question.py](/question.py)
+The file that stores functions to read and write questions.
+
+### [info_command.py](/info_command.py)
 The file that stores contents of the `info` slash command, as there are a lot of text in that.
 
 ### [server_info.py](/server_info.py)
