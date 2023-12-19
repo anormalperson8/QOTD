@@ -80,6 +80,18 @@ def create_approve_list():
     return [list(filter(lambda i: i is not None, que)) for que in list(zip_longest(*[iter(get_filters())] * 10))]
 
 
+def filter_empty():
+    return create_approve_list()[0][0] == ""
+
+
+def create_question_list():
+    return [list(filter(lambda i: i is not None, que)) for que in list(zip_longest(*[iter(get_questions())] * 10))]
+
+
+def questions_empty():
+    return create_question_list()[0][0] == ""
+
+
 def create_approve_pages(title: str, url: str):
     it = create_approve_list()
 
@@ -99,8 +111,23 @@ def create_approve_pages(title: str, url: str):
                            colour=random_colour(), url=url) for t in text]
 
 
-def filter_empty():
-    return create_approve_list()[0][0] == ""
+def create_question_pages(title: str, url: str):
+    it = create_question_list()
+
+    if it[0][0] != "":
+        text = [("Questions:\n" +
+                 "\n".join(
+                    [f"----------{(10 * i + j + 1):02d}----------\n"
+                     f"{it[i][j]}" for j in range(len(it[i]))]
+                 ) +
+                 "\n") for i in range(len(it))]
+    else:
+        text = ["There are no questions in the system!"]
+
+    return [nextcord.Embed(title=title,
+                           description=f"```\n{t}```",
+                           colour=random_colour(), url=url) for t in text]
+
 
 
 def get_filter_question(index: int):

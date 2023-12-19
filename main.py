@@ -57,8 +57,8 @@ async def ping(interaction: nextcord.Interaction):
 def timestamp():
     now = datetime.datetime.now()
     return f"Today is {now.date().day} {calendar.month_name[now.date().month]}, {now.date().year}\n" \
-        f"The time (hh/mm/ss) now is {now.time().hour:02}:{now.time().minute:02}:{now.time().second:02}.\n" \
-        f"Today is {calendar.day_name[now.weekday()]}."
+           f"The time (hh/mm/ss) now is {now.time().hour:02}:{now.time().minute:02}:{now.time().second:02}.\n" \
+           f"Today is {calendar.day_name[now.weekday()]}."
 
 
 @client.command()
@@ -149,9 +149,19 @@ async def add_question(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="See upcoming questions!")
+async def questions(interaction: nextcord.Interaction):
+    title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
+    url = "https://github.com/anormalperson8/QOTD_Eevee"
+    image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
+    await interaction.response.send_message(content="", embed=question.create_question_pages(title, url)[0],
+                                            view=pageClass.QuestionPages(title=title, url=url, image=image,
+                                                                         ctx=interaction))
+
+
+@commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="Approve/Reject submitted questions. Mods only.")
 async def approve(interaction: nextcord.Interaction):
-
     if not check_mod(interaction):
         await interaction.edit_original_message(content="Mods only.")
         return
