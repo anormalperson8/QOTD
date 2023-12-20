@@ -11,7 +11,7 @@ Written specifically for friends' Discord servers.
 ### [main.py](/main.py)
 The file that stores all the commands and interactions.
 
-### [pageClass.py](/pageClass)
+### [pageClass](/pageClass)
 The directory that contains UI class files.
 
 ### [question.py](/question.py)
