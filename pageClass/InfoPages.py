@@ -31,10 +31,10 @@ class InfoPages(nextcord.ui.View):
         self.next_button.disabled = page == len(self.pages) - 1
 
     async def on_timeout(self) -> None:
-        await self.disable_button()
+        self.disable_button()
         og = await self.ctx.original_message()
         await og.edit(view=self, content="", embed=self.pages[self.page_number])
 
-    async def disable_button(self):
+    def disable_button(self):
         self.previous_button.disabled = True
         self.next_button.disabled = True
