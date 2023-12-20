@@ -2,16 +2,21 @@
 
 A Discord bot for asking Question of the Day regularly.<br/>
 Written specifically for friends' Discord servers.
+A lot of the code is referenced from my other project [Birthday Eevee](https://github.com/anormalperson8/Birthday).
 
-## Version 0
-- This bot is currently in development!
+## Version 1.0
+- Most, if not all, planned functions have been implemented!
+- This bot allows users to submit questions to the system, moderators approve them,
+and ask them in the designated channel every day.
+- Currently, this bot does not support different questions for different servers<br/>
+  (i.e. all servers share the same question "database")
 
 ## Main files
 
 ### [main.py](/main.py)
 The file that stores all the commands and interactions.
 
-### [pageClass](/pageClass)
+### [pageClasses](/pageClasses)
 The directory that contains UI class files.
 
 ### [question.py](/question.py)
