@@ -39,6 +39,16 @@ def get_filters():
     return questions
 
 
+def remove_question(index: int):
+    questions = get_questions()
+    f = open(path + "/data/questions2.txt", 'w')
+    questions = [i.replace("\n", r"\n") for i in questions]
+    f.write("\n".join(questions[:index] + questions[index + 1:]))
+    f.close()
+    os.remove(path + "/data/questions.txt")
+    os.rename(path + "/data/questions2.txt", path + "/data/questions.txt")
+
+
 # Accept or deny a question
 def filter_question(index: int, status: bool):
     questions = get_filters()
@@ -128,6 +138,9 @@ def create_question_pages(title: str, url: str):
                            description=f"```\n{t}```",
                            colour=random_colour(), url=url) for t in text]
 
+
+def get_question(index: int):
+    return get_questions()[index]
 
 
 def get_filter_question(index: int):
