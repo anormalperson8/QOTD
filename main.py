@@ -18,7 +18,7 @@ from pageClass.FilterPages import FilterPages
 from pageClass.DeleteQuestion import DeleteQuestion
 
 intents = nextcord.Intents.all()
-client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
+client = commands.Bot(command_prefix='q!', intents=intents, help_command=None,
                       activity=nextcord.Activity(type=nextcord.ActivityType.listening, name="your questions"))
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -133,7 +133,7 @@ async def owner_reject(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
-@client.slash_command(guild_ids=guilds_list, description="Approve questions!")
+@client.slash_command(guild_ids=guilds_list, description="My info!")
 async def info(interaction: nextcord.Interaction):
     title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
     url = "https://github.com/anormalperson8/QOTD_Eevee"
