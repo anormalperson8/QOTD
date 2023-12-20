@@ -1,7 +1,7 @@
 # QOTD Eevee
 
 A Discord bot for asking Question of the Day regularly.<br/>
-Written specifically for friends' Discord servers.
+Written specifically for friends' Discord servers.<br/>
 A lot of the code is referenced from my other project [Birthday Eevee](https://github.com/anormalperson8/Birthday).
 
 ## Version 1.0
