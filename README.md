@@ -6,8 +6,8 @@ A lot of the code is referenced from my other project [Birthday Eevee](https://g
 
 ## Version 1.0
 - Most, if not all, planned functions have been implemented!
-- This bot allows users to submit questions to the system, moderators approve them,
-and ask them in the designated channel every day.
+- This bot allows users to submit questions to the system, moderators to approve them,
+and QOTD Eevee will ask them in the designated channel every day.
 - Currently, this bot does not support different questions for different servers<br/>
   (i.e. all servers share the same question "database")
 
