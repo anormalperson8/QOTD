@@ -11,6 +11,9 @@ and QOTD Eevee will ask them in the designated channel every day.
 - Currently, this bot does not support different questions for different servers<br/>
   (i.e. all servers share the same question "database")
 
+#### Version 1.0.1
+- Bot now does not ask an empty question when there are no questions available.
+
 ## Main files
 
 ### [main.py](/main.py)
