@@ -238,6 +238,11 @@ async def ask():
 async def ask_question():
     global servers
 
+    if question.questions_empty():
+        await (client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel)
+               .send("Activated.\nNo questions available."))
+        return
+
     q = question.pop_first_question()
 
     # Test channel is hard-coded to be the first server
