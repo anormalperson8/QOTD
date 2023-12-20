@@ -5,7 +5,7 @@ Written specifically for friends' Discord servers.<br/>
 A lot of the code is referenced from my other project [Birthday Eevee](https://github.com/anormalperson8/Birthday).
 
 ## Version 1.0
-- Most, if not all, planned functions have been implemented!
+- Most planned functions have been implemented!
 - This bot allows users to submit questions to the system, moderators to approve them,
 and QOTD Eevee will ask them in the designated channel every day.
 - Currently, this bot does not support different questions for different servers<br/>
