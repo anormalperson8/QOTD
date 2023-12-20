@@ -21,8 +21,6 @@ def create_page(title: str, url: str, page: int):
                               description="# Info about me!\n"
                                           "I am QOTD Eevee!\n"
                                           "I am a bot that asks QOTD (Questions of the Day).\n"
-                                          "This bot is currently **in development**!\n"
-                                          "The text command prefix will be changed later.\n"
                                           "Read the other pages to see what commands I have to offer.",
                               colour=random_colour(), url=url)
     if page == 2:
