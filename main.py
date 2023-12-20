@@ -246,8 +246,8 @@ async def ask_question():
     q = question.pop_first_question()
 
     # Test channel is hard-coded to be the first server
-    await (client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel).send("Question asked.\n"
-                                                                                               "Question was:"))
+    await client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel).send("Question asked.\n"
+                                                                                              "Question was:")
 
     for server in servers:
         if server.question_channel == -1:
