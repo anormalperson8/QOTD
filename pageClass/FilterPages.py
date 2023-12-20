@@ -39,8 +39,7 @@ class FilterPages(nextcord.ui.View):
         self.page_number -= 1
         await self.update_choice()
         await self.update_page(self.page_number)
-        await interaction.response.edit_message(view=self, content="",
-                                                embed=self.pages[self.page_number])
+        await interaction.response.edit_message(view=self, embed=self.pages[self.page_number])
 
     @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="➡️", disabled=False, row=2)
     async def next_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
@@ -50,8 +49,7 @@ class FilterPages(nextcord.ui.View):
         self.page_number += 1
         await self.update_choice()
         await self.update_page(self.page_number)
-        await interaction.response.edit_message(view=self, content="",
-                                                embed=self.pages[self.page_number])
+        await interaction.response.edit_message(view=self, embed=self.pages[self.page_number])
 
     @nextcord.ui.button(label="Approve", style=nextcord.ButtonStyle.gray, emoji="✅", disabled=True, row=1)
     # <:OutletYes:965914861991235604>
@@ -77,7 +75,7 @@ class FilterPages(nextcord.ui.View):
 
     def result_string(self, status: bool):
         q = question.get_filter_question(int(self.val[0])).replace("\n", r"\n")
-        t = f"**Question {int(self.val[0]) + 1}: `{q}` has been"
+        t = f"**Question {int(self.val[0]) + 1}:\n`{q}`\nhas been"
         if status:
             t += " approved.**"
         else:

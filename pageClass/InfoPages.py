@@ -14,19 +14,17 @@ class InfoPages(nextcord.ui.View):
         if len(pages) <= 1:
             self.next_button.disabled = True
 
-    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="⬅️", disabled=True, row=0)  #
+    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="⬅️", disabled=True, row=4)
     async def previous_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
         self.page_number -= 1
         await self.update_button(self.page_number)
-        await interaction.response.edit_message(view=self, content="",
-                                                embed=self.pages[self.page_number])
+        await interaction.response.edit_message(view=self, embed=self.pages[self.page_number])
 
-    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="➡️", disabled=False, row=0)
+    @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="➡️", disabled=False, row=4)
     async def next_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
         self.page_number += 1
         await self.update_button(self.page_number)
-        await interaction.response.edit_message(view=self, content="",
-                                                embed=self.pages[self.page_number])
+        await interaction.response.edit_message(view=self, embed=self.pages[self.page_number])
 
     async def update_button(self, page: int):
         self.previous_button.disabled = page == 0
