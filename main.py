@@ -10,8 +10,11 @@ import asyncio
 # Self .py files
 import info_command
 import server_info
-import pageClass
 import question
+from pageClass.InfoPages import InfoPages
+from pageClass.AddQuestion import AddQuestion
+from pageClass.QuestionPages import QuestionPages
+from pageClass.FilterPages import FilterPages
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
@@ -29,7 +32,7 @@ servers = server_info.get_servers()
 @client.event
 async def on_ready():
     await client.wait_until_ready()
-    # client.loop.create_task(ask())
+    client.loop.create_task(ask())
     global guilds_list
     for guild in client.guilds:
         guilds_list.append(int(guild.id))
@@ -139,13 +142,13 @@ async def info(interaction: nextcord.Interaction):
         pages[i].set_thumbnail(image)
         pages[i].set_footer(text=f"Page {i + 1}/{len(pages)}")
     await interaction.response.send_message(content="", embed=pages[0],
-                                            view=pageClass.InfoPages(pages=pages, ctx=interaction))
+                                            view=InfoPages(pages=pages, ctx=interaction))
 
 
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="Add a question!")
 async def add_question(interaction: nextcord.Interaction):
-    await interaction.response.send_modal(pageClass.AddQuestion())
+    await interaction.response.send_modal(AddQuestion())
 
 
 @commands.guild_only()
@@ -155,8 +158,8 @@ async def questions(interaction: nextcord.Interaction):
     url = "https://github.com/anormalperson8/QOTD_Eevee"
     image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
     await interaction.response.send_message(content="", embed=question.create_question_pages(title, url)[0],
-                                            view=pageClass.QuestionPages(title=title, url=url, image=image,
-                                                                         ctx=interaction))
+                                            view=QuestionPages(title=title, url=url, image=image,
+                                                               ctx=interaction))
 
 
 @commands.guild_only()
@@ -177,8 +180,65 @@ async def approve(interaction: nextcord.Interaction):
     pages[0].set_footer(text=f"Page 1/{len(pages)}")
 
     await interaction.response.send_message(content="", embed=pages[0],
-                                            view=pageClass.FilterPages(title=title, url=url, image=image,
-                                                                       ctx=interaction))
+                                            view=FilterPages(title=title, url=url, image=image,
+                                                             ctx=interaction))
+
+
+@commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="Remove a question from the question list. Mods only.")
+async def delete_question(interaction: nextcord.Interaction):
+    if not check_mod(interaction):
+        await interaction.edit_original_message(content="Mods only.")
+        return
+    pass
+
+
+async def ask():
+    schedule_time = datetime.datetime.now().replace(hour=2, minute=0, second=0, microsecond=0)
+
+    await client.wait_until_ready()
+
+    while not client.is_closed():
+        now = datetime.datetime.now()
+        if schedule_time <= now:
+            day = now.weekday()
+            # Read day.txt
+            if os.path.isfile(path + "/data/day.txt"):
+                weekday_file = open(path + "/data/day.txt", "r")
+                day_in_file = weekday_file.read()
+                weekday_file.close()
+            else:
+                # Previous day
+                day_in_file = (day + 6) % 7
+            # Ask if the day in txt does not match
+            if int(day_in_file) != day:
+                weekday_file = open(path + "/data/day.txt", "w")
+                weekday_file.write(str(day))
+                weekday_file.close()
+                await ask_question()
+            # add one day to schedule_time to repeat on next day
+            schedule_time += datetime.timedelta(days=1)
+        await asyncio.sleep(10)
+
+
+async def ask_question():
+    global servers
+
+    q = question.pop_first_question()
+
+    # Test channel is hard-coded to be the first server
+    await (client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel).send("Question asked.\n"
+                                                                                               "Question was:"))
+
+    for server in servers:
+        if server.question_channel == -1:
+            continue
+        channel = client.get_guild(server.serverID).get_channel(server.question_channel)
+        if server.role_to_ping == -1:
+            role = ""
+        else:
+            role = f"\n<@&{server.role_to_ping}>"
+        await channel.send(q + role)
 
 
 @commands.guild_only()
