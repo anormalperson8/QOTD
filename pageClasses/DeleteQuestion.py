@@ -1,7 +1,7 @@
 import nextcord
 
 import question
-from pageClass.QuestionPages import QuestionPages
+from pageClasses.QuestionPages import QuestionPages
 
 
 class DeleteQuestion(QuestionPages):

@@ -1,6 +1,6 @@
 import nextcord
 
-from pageClass.InfoPages import InfoPages
+from pageClasses.InfoPages import InfoPages
 import question
 
 

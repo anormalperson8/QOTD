@@ -11,11 +11,11 @@ import asyncio
 import info_command
 import server_info
 import question
-from pageClass.InfoPages import InfoPages
-from pageClass.AddQuestion import AddQuestion
-from pageClass.QuestionPages import QuestionPages
-from pageClass.FilterPages import FilterPages
-from pageClass.DeleteQuestion import DeleteQuestion
+from pageClasses.InfoPages import InfoPages
+from pageClasses.AddQuestion import AddQuestion
+from pageClasses.QuestionPages import QuestionPages
+from pageClasses.FilterPages import FilterPages
+from pageClasses.DeleteQuestion import DeleteQuestion
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='q!', intents=intents, help_command=None,
