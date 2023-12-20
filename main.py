@@ -197,7 +197,14 @@ async def delete_question(interaction: nextcord.Interaction):
     await interaction.response.send_message(content="", embed=question.create_question_pages(title, url)[0],
                                             view=DeleteQuestion(title=title, url=url, image=image,
                                                                 ctx=interaction))
-    pass
+
+
+@commands.guild_only()
+@client.slash_command(guild_ids=guilds_list, description="Remove a question from the question list. Mods only.")
+async def activate(interaction: nextcord.Interaction):
+    if await owner_reject(interaction):
+        return
+    await ask_question()
 
 
 async def ask():
