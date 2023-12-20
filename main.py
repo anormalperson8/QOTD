@@ -15,6 +15,7 @@ from pageClass.InfoPages import InfoPages
 from pageClass.AddQuestion import AddQuestion
 from pageClass.QuestionPages import QuestionPages
 from pageClass.FilterPages import FilterPages
+from pageClass.DeleteQuestion import DeleteQuestion
 
 intents = nextcord.Intents.all()
 client = commands.Bot(command_prefix='!q', intents=intents, help_command=None,
@@ -190,6 +191,12 @@ async def delete_question(interaction: nextcord.Interaction):
     if not check_mod(interaction):
         await interaction.edit_original_message(content="Mods only.")
         return
+    title = "QOTD Eevee <:EeveeWave:1062326395935674489>"
+    url = "https://github.com/anormalperson8/QOTD_Eevee"
+    image = "https://github.com/anormalperson8/QOTD_Eevee/blob/master/image/QOTD_Eevee.png?raw=true"
+    await interaction.response.send_message(content="", embed=question.create_question_pages(title, url)[0],
+                                            view=DeleteQuestion(title=title, url=url, image=image,
+                                                                ctx=interaction))
     pass
 
 
