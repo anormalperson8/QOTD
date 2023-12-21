@@ -28,6 +28,7 @@ def create_page(title: str, url: str, page: int):
                               description="# Server Global Commands\n"
                                           "The following commands can be used by all users of the server.\n"
                                           "## Slash Commands\n"
+                                          "**questions**\nSee upcoming questions.\n"
                                           "**add_question**\nThis pops up a window that lets you submit a question.\n"
                                           "**ping**\nTest command.\n"
                                           "**info**\nThis command.\n"
