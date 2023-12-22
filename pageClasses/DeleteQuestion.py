@@ -32,7 +32,7 @@ class DeleteQuestion(QuestionPages):
 
     def result_string(self):
         q = question.get_question(int(self.val[0])).replace("\n", r"\n")
-        t = f"**Question {int(self.val[0]) + 1}:\n`{q}`\nhas been deleted.**"
+        t = f"**Question {int(self.val[0]) + 1}:```\n{q}\n```has been deleted.**"
         return t
 
     async def update_button(self, page: int):
