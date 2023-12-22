@@ -75,7 +75,7 @@ class FilterPages(nextcord.ui.View):
 
     def result_string(self, status: bool):
         q = question.get_filter_question(int(self.val[0])).replace("\n", r"\n")
-        t = f"**Question {int(self.val[0]) + 1}:\n`{q}`\nhas been"
+        t = f"**Question {int(self.val[0]) + 1}:```\n{q}\n```has been"
         if status:
             t += " approved.**"
         else:
