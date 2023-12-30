@@ -78,6 +78,8 @@ def filter_question(index: int, status: bool):
 
 def add_to_filter(question: str):
     questions = [i.replace("\n", r"\n") for i in get_filters()]
+    if len(questions) > 0 and questions[0] == "":
+        questions.remove("")
     questions.append(question.replace("\n", r"\n"))
     f = open(path + "/data/filter2.txt", 'w')
     f.write("\n".join(questions))
