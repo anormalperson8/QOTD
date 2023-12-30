@@ -58,6 +58,8 @@ def filter_question(index: int, status: bool):
     if status:
         new_q.append(questions.pop(index))
         new_q = [i.replace("\n", r"\n") for i in new_q]
+        if len(new_q) > 0 and new_q[0] == "":
+            new_q.remove("")
         q = open(path + "/data/questions2.txt", 'w')
         q.write("\n".join(new_q))
         q.close()
