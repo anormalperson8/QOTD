@@ -67,6 +67,8 @@ def filter_question(index: int, status: bool):
     # Update filters
     f = open(path + "/data/filter2.txt", 'w')
     questions = [i.replace("\n", r"\n") for i in questions]
+    if len(questions) > 0 and questions[0] == "":
+        questions.remove("")
     if status:
         f.write("\n".join(questions))
     else:
