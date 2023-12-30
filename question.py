@@ -145,7 +145,3 @@ def get_question(index: int):
 
 def get_filter_question(index: int):
     return get_filters()[index]
-
-
-if __name__ == "__main__":
-    pass
