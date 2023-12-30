@@ -505,7 +505,7 @@ async def delete_server(interaction: nextcord.Interaction,
 async def on_message(message):
     if message.author.bot:
         return
-    if "qotd" in message.content.lower():
+    if "qotd eevee" in message.content.lower():
         await message.add_reaction("<:EeveeLurk:991271779735719976>")
 
 
