@@ -149,7 +149,10 @@ async def info(interaction: nextcord.Interaction):
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="Add a question!")
 async def add_question(interaction: nextcord.Interaction):
-    await interaction.response.send_modal(AddQuestion())
+    await interaction.response.send_modal(AddQuestion(interaction=interaction,
+                                                      channel=client.get_guild(servers[0].serverID)
+                                                      .get_channel(servers[0].question_channel)
+                                                      ))
 
 
 @commands.guild_only()
