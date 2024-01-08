@@ -101,12 +101,12 @@ class FilterPages(nextcord.ui.View):
     def reset(self):
         self.select.placeholder = "Select an option"
         self.choices = question.create_approve_list()
+        self.page_number = 0
         self.select.options = self.create_options()
         self.pages = question.create_approve_pages(self.title, self.url)
         for i in range(len(self.pages)):
             self.pages[i].set_thumbnail(self.image)
             self.pages[i].set_footer(text=f"Page {i + 1}/{len(self.pages)}")
-        self.page_number = 0
         if not question.filter_empty():
             self.disable_page_turning()
             self.disable_approval_button()
