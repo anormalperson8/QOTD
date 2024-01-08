@@ -19,4 +19,4 @@ class AddQuestion(nextcord.ui.Modal):
                                "It will be put up for approval.", ephemeral=True)
         if self.channel is not None:
             await self.channel.send(f"Question```\n{self.question_box.value}\n```was submitted by "
-                                    f"{interaction.user.display_name}")
+                                    f"{interaction.user.global_name}")
