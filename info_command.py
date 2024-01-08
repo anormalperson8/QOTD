@@ -4,6 +4,7 @@ import random
 
 newline = r"\n"
 
+
 def random_colour():
     colours = [nextcord.Colour.red(),
                nextcord.Colour.orange(),
