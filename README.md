@@ -14,6 +14,10 @@ and QOTD Eevee will ask them in the designated channel every day.
 #### Version 1.0.1
 - Bot now does not ask an empty question when there are no questions available.
 
+#### Version 1.0.2
+- Minor bug fixes.
+- The `echo` and `echo2` commands now support new lines by manually typing `\n` in the message box.
+
 ## Main files
 
 ### [main.py](/main.py)
