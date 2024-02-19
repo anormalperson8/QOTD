@@ -42,13 +42,14 @@ class DeleteQuestion(QuestionPages):
 
     def reset(self):
         self.select.placeholder = "Select an option"
-        self.delete_button.disabled = True
+        self.choices = question.create_question_list()
         self.page_number = 0
         self.select.options = self.create_options()
         self.pages = question.create_question_pages(self.title, self.url)
         for i in range(len(self.pages)):
             self.pages[i].set_thumbnail(self.image)
             self.pages[i].set_footer(text=f"Page {i + 1}/{len(self.pages)}")
+        self.delete_button.disabled = True
         if question.questions_empty():
             self.select.disabled = True
         self.disable_button()
