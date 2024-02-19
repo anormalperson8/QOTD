@@ -35,7 +35,7 @@ class DeleteQuestion(QuestionPages):
         t = f"**Question {int(self.val[0]) + 1}:```\n{q}\n```has been deleted.**"
         return t
 
-    def update_button(self, page: int):
+    async def update_button(self, page: int):
         self.previous_button.disabled = page == 0
         self.next_button.disabled = page == len(self.pages) - 1
         self.select.options = self.create_options()
@@ -51,9 +51,12 @@ class DeleteQuestion(QuestionPages):
             self.pages[i].set_footer(text=f"Page {i + 1}/{len(self.pages)}")
         self.page_number = 0
         self.select.options = self.create_options()
+        self.select.options = self.create_options()
         if question.questions_empty():
             self.select.disabled = True
-        self.update_button(self.page_number)
+        self.disable_button()
+        if len(self.pages) > 1:
+            self.next_button.disabled = False
 
     def create_options(self):
         return [nextcord.SelectOption(label=f"Question {i + self.page_number * 10 + 1}",
