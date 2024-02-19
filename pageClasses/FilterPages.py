@@ -29,7 +29,7 @@ class FilterPages(nextcord.ui.View):
         self.select.placeholder = f"Question {int(self.val[0]) + 1}"
         self.approve_button.disabled = False
         self.reject_button.disabled = False
-        await interaction.response.edit_message(view=self, content="", embed=self.pages[self.page_number])
+        await interaction.response.edit_message(view=self, embed=self.pages[self.page_number])
 
     @nextcord.ui.button(label="", style=nextcord.ButtonStyle.gray, emoji="⬅️", disabled=True, row=2)
     async def previous_button(self, button: nextcord.ui.button, interaction: nextcord.Interaction):
