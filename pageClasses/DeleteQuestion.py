@@ -51,7 +51,6 @@ class DeleteQuestion(QuestionPages):
             self.pages[i].set_footer(text=f"Page {i + 1}/{len(self.pages)}")
         self.page_number = 0
         self.select.options = self.create_options()
-        self.select.options = self.create_options()
         if question.questions_empty():
             self.select.disabled = True
         self.disable_button()
