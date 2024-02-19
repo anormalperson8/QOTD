@@ -18,6 +18,11 @@ and QOTD Eevee will ask them in the designated channel every day.
 - Minor bug fixes.
 - The `echo` and `echo2` commands now support new lines by manually typing `\n` in the message box.
 
+#### Version 1.0.3
+- Bug fixes
+    - It no longer throws errors in delete_question when you delete the first question of a page
+    - Message content is no longer sent to the shadow realm when selecting an alternate option
+
 ## Main files
 
 ### [main.py](/main.py)
