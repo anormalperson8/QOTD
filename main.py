@@ -29,6 +29,8 @@ owner_id = int(os.getenv('ID'))
 guilds_list = []
 servers = server_info.get_servers()
 
+channel_test = 0
+
 
 @client.event
 async def on_ready():
@@ -39,6 +41,7 @@ async def on_ready():
         guilds_list.append(int(guild.id))
     print('We have logged in as {0.user}'.format(client))
     test_server = server_info.get_servers()[0]
+    global channel_test
     channel_test = client.get_guild(test_server.serverID).get_channel(test_server.question_channel)
     await channel_test.send(f"QOTD Eevee is on.")
 
@@ -149,10 +152,7 @@ async def info(interaction: nextcord.Interaction):
 @commands.guild_only()
 @client.slash_command(guild_ids=guilds_list, description="Add a question!")
 async def add_question(interaction: nextcord.Interaction):
-    await interaction.response.send_modal(AddQuestion(interaction=interaction,
-                                                      channel=client.get_guild(servers[0].serverID)
-                                                      .get_channel(servers[0].question_channel)
-                                                      ))
+    await interaction.response.send_modal(AddQuestion(interaction=interaction, channel=channel_test))
 
 
 @commands.guild_only()
@@ -185,7 +185,8 @@ async def approve(interaction: nextcord.Interaction):
 
     await interaction.response.send_message(content="", embed=pages[0],
                                             view=FilterPages(title=title, url=url, image=image,
-                                                             ctx=interaction))
+                                                             ctx=interaction,
+                                                             debug_channel=channel_test))
 
 
 @commands.guild_only()
@@ -242,15 +243,13 @@ async def ask_question():
     global servers
 
     if question.questions_empty():
-        await (client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel)
-               .send("Activated.\nNo questions available."))
+        await channel_test.send("Activated.\nNo questions available.")
         return
 
     q = question.pop_first_question()
 
     # Test channel is hard-coded to be the first server
-    await client.get_guild(servers[0].serverID).get_channel(servers[0].question_channel).send("Question asked.\n"
-                                                                                              "Question was:")
+    await channel_test.send("Question asked.\nQuestion was:")
 
     for server in servers:
         if server.question_channel == -1:
