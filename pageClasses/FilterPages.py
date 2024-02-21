@@ -1,11 +1,12 @@
 import nextcord
 
 import question
+import server_info
 
 
 class FilterPages(nextcord.ui.View):
     def __init__(self, *, timeout: int = 180, title: str = "", url: str = None,
-                 image: str = None, ctx: nextcord.Interaction = None):
+                 image: str = None, ctx: nextcord.Interaction = None, debug_channel):
         super().__init__(timeout=timeout)
         self.title = title
         self.url = url
@@ -16,6 +17,8 @@ class FilterPages(nextcord.ui.View):
         self.page_number = 0
         self.choices = None
         self.select.options = []
+
+        self.debug_channel = debug_channel
 
         self.reset()
         if len(self.pages) <= 1:
@@ -60,6 +63,7 @@ class FilterPages(nextcord.ui.View):
         t = self.result_string(True)
         question.filter_question(int(self.val[0]), True)
         self.reset()
+        await self.debug_channel.send(f"{t}\n**Moderator responsible: {self.ctx.user.global_name}.**")
         await interaction.response.edit_message(view=self, content=t, embed=self.pages[self.page_number])
 
     @nextcord.ui.button(label="Reject", style=nextcord.ButtonStyle.gray, emoji="❌", disabled=True, row=1)
@@ -71,6 +75,7 @@ class FilterPages(nextcord.ui.View):
         t = self.result_string(False)
         question.filter_question(int(self.val[0]), False)
         self.reset()
+        await self.debug_channel.send(f"{t}\n**Moderator responsible: {self.ctx.user.global_name}.**")
         await interaction.response.edit_message(view=self, content=t, embed=self.pages[self.page_number])
 
     def result_string(self, status: bool):
