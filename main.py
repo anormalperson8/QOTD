@@ -242,8 +242,10 @@ async def ask():
 async def ask_question():
     global servers
 
+    s = timestamp()
+
     if question.questions_empty():
-        await channel_test.send("Activated.\nNo questions available.")
+        await channel_test.send(f"Activated.\nNo questions available.\n{s}")
         return
 
     q = question.pop_first_question()
@@ -260,6 +262,8 @@ async def ask_question():
         else:
             role = f"\n<@&{server.role_to_ping}>"
         await channel.send(q + role)
+
+    await channel_test.send(s)
 
 
 @commands.guild_only()
