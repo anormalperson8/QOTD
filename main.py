@@ -204,7 +204,7 @@ async def delete_question(interaction: nextcord.Interaction):
 
 
 @commands.guild_only()
-@client.slash_command(guild_ids=guilds_list, description="Remove a question from the question list. Mods only.")
+@client.slash_command(guild_ids=guilds_list, description="Activate the bot manually.")
 async def activate(interaction: nextcord.Interaction):
     if await owner_reject(interaction):
         return
