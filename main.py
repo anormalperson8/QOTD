@@ -29,7 +29,7 @@ owner_id = int(os.getenv('ID'))
 guilds_list = []
 servers = server_info.get_servers()
 
-channel_test = 0
+channel_test = None
 
 
 @client.event
