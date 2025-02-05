@@ -20,8 +20,12 @@ and QOTD Eevee will ask them in the designated channel every day.
 
 #### Version 1.0.3
 - Bug fixes
-    - It no longer throws errors in delete_question when you delete the first question of a page
-    - Message content is no longer sent to the shadow realm when selecting an alternate option
+  - Errors are no longer thrown in `delete_question` when you delete the first question of a page
+  - Message content is no longer sent to the shadow realm when selecting an alternate option
+
+#### Version 1.0.4
+- Bug fix
+  - Questions with newlines (`\n`) no longer gets split after activation
 
 ## Main files
 
