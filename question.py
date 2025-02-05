@@ -22,8 +22,9 @@ def get_questions():
 # Pop the first question out. Whether the file contains a question is NOT checked.
 def pop_first_question():
     questions = get_questions()
+    to_write = [i.replace("\n", r"\n") for i in questions[1:]]
     q = open(path + "/data/questions2.txt", 'w')
-    q.write("\n".join(questions[1:]))
+    q.write("\n".join(to_write))
     q.close()
     os.remove(path + "/data/questions.txt")
     os.rename(path + "/data/questions2.txt", path + "/data/questions.txt")
